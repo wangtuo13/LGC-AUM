@@ -1,0 +1,307 @@
+Data = Data_style(name='Mnist',     input_size=784, pretrain=False, pretrain_batchsize=256, cluster_batchsize=1000, change=30,
+                      num_epoch=800, pretrain_lr=0.01, noise=0.2, n_cluster=10, shuffle=False, m=10, divide=0.1, total=70000)
+
+Epoch: [1/800], MSE_loss: 0.00000000
+Acc_kmeans = 0.8981	Acc_D = 0.8981	Nmi = 0.8024	Ari = 0.7911	Dec_loss = 0.0000	Our_loss=0.0000
+Epoch: [30/800], MSE_loss: 0.00000000
+Acc_kmeans = 0.9562	Acc_D = 0.8930	Nmi = 0.8392	Ari = 0.8019	Dec_loss = 0.0000	Our_loss=0.0000
+Epoch: [31/800], MSE_loss: 0.00000000
+Acc_kmeans = 0.9563	Acc_D = 0.9563	Nmi = 0.8964	Ari = 0.9065	Dec_loss = 0.0000	Our_loss=0.0000
+Epoch: [126/800], MSE_loss: 0.00000000
+Acc_kmeans = 0.9563	Acc_D = 0.9700	Nmi = 0.9213	Ari = 0.9350	Dec_loss = 0.0000	Our_loss=0.0000
+
+
+Dataset:	 Mnist
+input_size:	 784  =  1 * 28 * 28
+n_cluster:	 10
+hidden_dim:	 10
+trans:		 False
+num_workers: 0
+net			 VAE
+
+pretrain:	 False
+batchsize:	 1000
+epoch:		 125
+lr:			 0.001
+manifold_lr: 0.001
+optim:		 Adam
+change:		 30
+m:			 10
+divide:		 0.1
+total:		 70000
+
+loading pretrain weight from  ./pretrain_model/pre_vae_Mnist_Acc_77.8_hiddendim_10_optim_Adam_lr_0.001_num_workers_0_noise_0.2_batchsize_256_epoch_300.pt
+
+encoder1:  Sequential(
+  (0): Linear(in_features=784, out_features=500, bias=True)
+  (1): ReLU(inplace=True)
+  (2): Linear(in_features=500, out_features=500, bias=True)
+  (3): ReLU(inplace=True)
+  (4): Linear(in_features=500, out_features=500, bias=True)
+  (5): ReLU(inplace=True)
+)
+manifold:  Sequential(
+  (0): Linear(in_features=500, out_features=2000, bias=True)
+  (1): ReLU(inplace=True)
+  (2): Linear(in_features=2000, out_features=10, bias=True)
+)
+clustering:  Sequential(
+  (0): Linear(in_features=500, out_features=2000, bias=True)
+  (1): ReLU(inplace=True)
+  (2): Linear(in_features=2000, out_features=10, bias=True)
+)
+
+Epoch: [1/125], Manifold_loss: -1.72603941
+Acc_kmeans = 78.2729	Acc_D = 78.2729	Nmi = 75.1461	Ari = 68.8302
+Epoch: [2/125], Manifold_loss: -1.95742142
+Acc_kmeans = 96.1071	Acc_D = 84.6429	Nmi = 84.5402	Ari = 79.0495
+Epoch: [3/125], Manifold_loss: -1.96776712
+Acc_kmeans = 96.2643	Acc_D = 84.8771	Nmi = 84.5496	Ari = 79.0907
+Epoch: [4/125], Manifold_loss: -1.98505116
+Acc_kmeans = 95.4400	Acc_D = 84.6043	Nmi = 84.0456	Ari = 78.4688
+Epoch: [5/125], Manifold_loss: -1.95549929
+Acc_kmeans = 95.6486	Acc_D = 85.0457	Nmi = 84.4484	Ari = 78.9308
+Epoch: [6/125], Manifold_loss: -1.99381733
+Acc_kmeans = 95.8386	Acc_D = 85.2314	Nmi = 84.4338	Ari = 79.0399
+Epoch: [7/125], Manifold_loss: -2.00398946
+Acc_kmeans = 95.7700	Acc_D = 85.2857	Nmi = 84.4307	Ari = 79.0659
+Epoch: [8/125], Manifold_loss: -1.99678648
+Acc_kmeans = 95.7771	Acc_D = 85.2957	Nmi = 84.4170	Ari = 79.0434
+Epoch: [9/125], Manifold_loss: -1.99695539
+Acc_kmeans = 95.7629	Acc_D = 85.2729	Nmi = 84.3742	Ari = 79.0240
+Epoch: [10/125], Manifold_loss: -1.99353528
+Acc_kmeans = 95.6857	Acc_D = 85.2557	Nmi = 84.2327	Ari = 78.8886
+Epoch: [11/125], Manifold_loss: -1.98691428
+Acc_kmeans = 95.6986	Acc_D = 85.3157	Nmi = 84.2140	Ari = 78.9003
+Epoch: [12/125], Manifold_loss: -1.97898448
+Acc_kmeans = 95.6943	Acc_D = 85.3029	Nmi = 84.1715	Ari = 78.8467
+Epoch: [13/125], Manifold_loss: -1.97012198
+Acc_kmeans = 95.7114	Acc_D = 85.2586	Nmi = 84.0781	Ari = 78.7343
+Epoch: [14/125], Manifold_loss: -1.95290709
+Acc_kmeans = 95.6814	Acc_D = 85.2657	Nmi = 84.0313	Ari = 78.7255
+Epoch: [15/125], Manifold_loss: -1.94040942
+Acc_kmeans = 95.6514	Acc_D = 85.2971	Nmi = 83.9842	Ari = 78.7144
+Epoch: [16/125], Manifold_loss: -1.93333745
+Acc_kmeans = 95.5957	Acc_D = 85.1600	Nmi = 83.7939	Ari = 78.5129
+Epoch: [17/125], Manifold_loss: -1.92265391
+Acc_kmeans = 95.6057	Acc_D = 85.2100	Nmi = 83.8456	Ari = 78.5854
+Epoch: [18/125], Manifold_loss: -1.90805006
+Acc_kmeans = 95.5114	Acc_D = 85.1300	Nmi = 83.7321	Ari = 78.4189
+Epoch: [19/125], Manifold_loss: -1.87017775
+Acc_kmeans = 95.5614	Acc_D = 85.2086	Nmi = 83.8508	Ari = 78.5482
+Epoch: [20/125], Manifold_loss: -1.45958769
+Acc_kmeans = 82.5886	Acc_D = 83.8371	Nmi = 81.6578	Ari = 75.8341
+Epoch: [21/125], Manifold_loss: -1.69520175
+Acc_kmeans = 95.5514	Acc_D = 84.6171	Nmi = 83.3662	Ari = 78.0430
+Epoch: [22/125], Manifold_loss: -1.74383700
+Acc_kmeans = 95.6629	Acc_D = 84.9371	Nmi = 83.7487	Ari = 78.4444
+Epoch: [23/125], Manifold_loss: -1.75523317
+Acc_kmeans = 95.4700	Acc_D = 84.9900	Nmi = 83.5791	Ari = 78.4013
+Epoch: [24/125], Manifold_loss: -1.75966620
+Acc_kmeans = 95.4143	Acc_D = 84.9443	Nmi = 83.8034	Ari = 78.4979
+Epoch: [25/125], Manifold_loss: -1.75856817
+Acc_kmeans = 95.4543	Acc_D = 84.8329	Nmi = 83.5627	Ari = 78.2406
+Epoch: [26/125], Manifold_loss: -1.75113380
+Acc_kmeans = 95.4871	Acc_D = 84.8729	Nmi = 83.5568	Ari = 78.2525
+Epoch: [27/125], Manifold_loss: -1.74265873
+Acc_kmeans = 95.4757	Acc_D = 84.9514	Nmi = 83.6592	Ari = 78.3654
+Epoch: [28/125], Manifold_loss: -1.73205817
+Acc_kmeans = 95.4743	Acc_D = 84.8871	Nmi = 83.5378	Ari = 78.2473
+Epoch: [29/125], Manifold_loss: -1.71966445
+Acc_kmeans = 95.4514	Acc_D = 84.9614	Nmi = 83.6115	Ari = 78.3490
+Epoch: [30/125], Manifold_loss: -1.70814884
+Acc_kmeans = 95.4100	Acc_D = 84.9043	Nmi = 83.5116	Ari = 78.2367
+Epoch: [31/125], Cluster_loss: 1.46943462
+Acc_kmeans = 95.4171	Acc_D = 95.4171	Nmi = 89.3972	Ari = 90.2274
+Epoch: [32/125], Cluster_loss: 1.46892822
+Acc_kmeans = 95.4171	Acc_D = 96.7271	Nmi = 91.7643	Ari = 92.9423
+Epoch: [33/125], Cluster_loss: 1.46743655
+Acc_kmeans = 95.4171	Acc_D = 96.9914	Nmi = 92.2521	Ari = 93.4928
+Epoch: [34/125], Cluster_loss: 1.46380615
+Acc_kmeans = 95.4171	Acc_D = 97.0243	Nmi = 92.3228	Ari = 93.5648
+Epoch: [35/125], Cluster_loss: 1.46058214
+Acc_kmeans = 95.4171	Acc_D = 97.0214	Nmi = 92.3182	Ari = 93.5597
+Epoch: [36/125], Cluster_loss: 1.45801246
+Acc_kmeans = 95.4171	Acc_D = 97.0214	Nmi = 92.3193	Ari = 93.5596
+Epoch: [37/125], Cluster_loss: 1.45528400
+Acc_kmeans = 95.4171	Acc_D = 97.0229	Nmi = 92.3207	Ari = 93.5624
+Epoch: [38/125], Cluster_loss: 1.45296764
+Acc_kmeans = 95.4171	Acc_D = 97.0257	Nmi = 92.3262	Ari = 93.5684
+Epoch: [39/125], Cluster_loss: 1.45077038
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3279	Ari = 93.5713
+Epoch: [40/125], Cluster_loss: 1.44872284
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3279	Ari = 93.5713
+Epoch: [41/125], Cluster_loss: 1.44713414
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3279	Ari = 93.5713
+Epoch: [42/125], Cluster_loss: 1.44624960
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3279	Ari = 93.5713
+Epoch: [43/125], Cluster_loss: 1.44482040
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3278	Ari = 93.5713
+Epoch: [44/125], Cluster_loss: 1.44378769
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3257	Ari = 93.5711
+Epoch: [45/125], Cluster_loss: 1.44322097
+Acc_kmeans = 95.4171	Acc_D = 97.0271	Nmi = 92.3257	Ari = 93.5711
+Epoch: [46/125], Cluster_loss: 1.44181502
+Acc_kmeans = 95.4171	Acc_D = 97.0257	Nmi = 92.3227	Ari = 93.5682
+Epoch: [47/125], Cluster_loss: 1.44426298
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [48/125], Cluster_loss: 1.44439638
+Acc_kmeans = 95.4171	Acc_D = 97.0143	Nmi = 92.3062	Ari = 93.5449
+Epoch: [49/125], Cluster_loss: 1.44524777
+Acc_kmeans = 95.4171	Acc_D = 97.0186	Nmi = 92.3127	Ari = 93.5536
+Epoch: [50/125], Cluster_loss: 1.44196653
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [51/125], Cluster_loss: 1.43919456
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [52/125], Cluster_loss: 1.43810976
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [53/125], Cluster_loss: 1.43780303
+Acc_kmeans = 95.4171	Acc_D = 97.0186	Nmi = 92.3126	Ari = 93.5536
+Epoch: [54/125], Cluster_loss: 1.43757808
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [55/125], Cluster_loss: 1.43650937
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [56/125], Cluster_loss: 1.44049478
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [57/125], Cluster_loss: 1.44270146
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [58/125], Cluster_loss: 1.43947673
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [59/125], Cluster_loss: 1.43603039
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [60/125], Cluster_loss: 1.43649912
+Acc_kmeans = 95.4171	Acc_D = 97.0200	Nmi = 92.3148	Ari = 93.5565
+Epoch: [61/125], Cluster_loss: 1.44235551
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [62/125], Cluster_loss: 1.44092250
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [63/125], Cluster_loss: 1.43898034
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [64/125], Cluster_loss: 1.43480110
+Acc_kmeans = 95.4171	Acc_D = 97.0186	Nmi = 92.3127	Ari = 93.5536
+Epoch: [65/125], Cluster_loss: 1.43193257
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [66/125], Cluster_loss: 1.43121576
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [67/125], Cluster_loss: 1.43031728
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [68/125], Cluster_loss: 1.43040264
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [69/125], Cluster_loss: 1.43137467
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [70/125], Cluster_loss: 1.43699503
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [71/125], Cluster_loss: 1.43610060
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3104	Ari = 93.5507
+Epoch: [72/125], Cluster_loss: 1.43268263
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [73/125], Cluster_loss: 1.42865932
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [74/125], Cluster_loss: 1.42878902
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [75/125], Cluster_loss: 1.43132401
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [76/125], Cluster_loss: 1.43610549
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [77/125], Cluster_loss: 1.43967021
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [78/125], Cluster_loss: 1.43254519
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [79/125], Cluster_loss: 1.42938423
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [80/125], Cluster_loss: 1.43526852
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [81/125], Cluster_loss: 1.43485844
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3083	Ari = 93.5478
+Epoch: [82/125], Cluster_loss: 1.43297708
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [83/125], Cluster_loss: 1.42707646
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [84/125], Cluster_loss: 1.42453158
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [85/125], Cluster_loss: 1.42371964
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [86/125], Cluster_loss: 1.42379761
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [87/125], Cluster_loss: 1.42391384
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [88/125], Cluster_loss: 1.43220985
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [89/125], Cluster_loss: 1.42901301
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [90/125], Cluster_loss: 1.42139256
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [91/125], Cluster_loss: 1.42111635
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [92/125], Cluster_loss: 1.42971098
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [93/125], Cluster_loss: 1.42999041
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [94/125], Cluster_loss: 1.41975224
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [95/125], Cluster_loss: 1.41721690
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [96/125], Cluster_loss: 1.41944432
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [97/125], Cluster_loss: 1.42444134
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [98/125], Cluster_loss: 1.43080235
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [99/125], Cluster_loss: 1.41919112
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3086	Ari = 93.5480
+Epoch: [100/125], Cluster_loss: 1.42344439
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [101/125], Cluster_loss: 1.43153632
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [102/125], Cluster_loss: 1.41777194
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [103/125], Cluster_loss: 1.41723502
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [104/125], Cluster_loss: 1.42012191
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [105/125], Cluster_loss: 1.41998768
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [106/125], Cluster_loss: 1.42355168
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [107/125], Cluster_loss: 1.42076290
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [108/125], Cluster_loss: 1.41636860
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [109/125], Cluster_loss: 1.41808891
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [110/125], Cluster_loss: 1.42916751
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [111/125], Cluster_loss: 1.41709495
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [112/125], Cluster_loss: 1.41931844
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [113/125], Cluster_loss: 1.42927921
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [114/125], Cluster_loss: 1.41789877
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [115/125], Cluster_loss: 1.41418147
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [116/125], Cluster_loss: 1.41599607
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [117/125], Cluster_loss: 1.42131138
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [118/125], Cluster_loss: 1.43386424
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [119/125], Cluster_loss: 1.42357326
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [120/125], Cluster_loss: 1.42999935
+Acc_kmeans = 95.4171	Acc_D = 97.0171	Nmi = 92.3108	Ari = 93.5509
+Epoch: [121/125], Cluster_loss: 1.42857385
+Acc_kmeans = 95.4171	Acc_D = 97.0157	Nmi = 92.3085	Ari = 93.5480
+Epoch: [122/125], Cluster_loss: 1.41568410
+Acc_kmeans = 95.4171	Acc_D = 97.0100	Nmi = 92.2994	Ari = 93.5367
+Epoch: [123/125], Cluster_loss: 1.41520369
+Acc_kmeans = 95.4171	Acc_D = 97.0100	Nmi = 92.2994	Ari = 93.5367
+Epoch: [124/125], Cluster_loss: 1.41486466
+Acc_kmeans = 95.4171	Acc_D = 97.0100	Nmi = 92.2994	Ari = 93.5367
+Epoch: [125/125], Cluster_loss: 1.41402984
+Acc_kmeans = 95.4171	Acc_D = 97.0100	Nmi = 92.2994	Ari = 93.5367
+
+saving model to...  ./final_model/Fin_Mnist_Ac_97.01_Nm_92.3_Ar_93.54_m_10_divid_0.1_chang_30_clr_0.001_mlr_0.001_btsize_1000_epoh_125_Fr_Mnist_Acc_77.8_hiddendim_10_optim_Adam_lr_0.001_num_workers_0_noise_0.2_batchsize_256_epoch_300.pt
+
+Over!

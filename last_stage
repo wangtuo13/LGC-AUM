@@ -1,0 +1,250 @@
+import sys
+sys.path.append(r'E:\Data')
+from sklearn.cluster import KMeans
+import torch.utils.data
+import torch.optim as optim
+from torch.autograd import Variable
+from torchvision import transforms
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from model import *
+from loss import *
+from load_data import *
+from utils import *
+
+'''
+#test = 'Palm'
+#test = 'Mnist'
+#test = 'Fashion'
+#test = 'USPS'
+#test = 'Coil_20'
+#test = 'Yale'
+#test = 'Cifar_10'
+if test=='Palm':
+    Data = Data_style(name='Palm',      input_size=256, n_cluster=100, hidden_dim=100, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=100,  cluster_lr=0.0001, change=1,  m=10, divide=0.03, total=2000)
+elif test == 'Mnist':
+    Data = Data_style(name='Mnist',     input_size=784, n_cluster=10, hidden_dim=10, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=800, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=5,  cluster_lr=0.001, change=2,  m=10, divide=0.1, total=70000)
+elif test == 'Yale':
+    Data = Data_style(name='Yale',      input_size=1024, n_cluster=38, hidden_dim=38, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=500, cluster_epoch=100,  cluster_lr=0.001, change=30,  m=5, divide=0.01, total=2000)
+elif test == 'Fashion':
+    Data = Data_style(name='Fashion',   input_size=784, n_cluster=10, hidden_dim=10, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=100,  cluster_lr=0.001, change=30,  m=10, divide=0.1, total=70000)
+elif test == 'USPS':
+    Data = Data_style(name='USPS',      input_size=256, n_cluster=10, hidden_dim=10, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=100,  cluster_lr=0.001, change=30,  m=10, divide=0.04, total=9298)
+elif test == 'Coil_20':
+    Data = Data_style(name='Coil_20',   input_size=16384, n_cluster=20, hidden_dim=20, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=100,  cluster_lr=0.001, change=30,  m=10, divide=0.1, total=2000)
+elif test == 'Cifar_10':
+    Data = Data_style(name='Cifar_10',  input_size=3072, n_cluster=10, hidden_dim=10, shuffle=False, pretrain=False,
+                      pretrain_batchsize=256, pretrain_epoch=100, pretrain_lr=0.01, noise=0.2, trans=None,
+                      cluster_batchsize=1000, cluster_epoch=100,  cluster_lr=0.001, change=30,  m=10, divide=0.1, total=2000)
+'''
+
+import argparse
+parser = argparse.ArgumentParser(description='train', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('--name', default='None', type=str)
+parser.add_argument('--input_size', default=-1, type=int)
+parser.add_argument('--n_cluster', default=-1, type=int)
+parser.add_argument('--hidden_dim', default=-1, type=int)
+parser.add_argument('--shuffle', action='store_true', help='Run or not')
+parser.add_argument('--pretrain', action='store_true', help='Run or not')
+parser.add_argument('--pretrain_batchsize', default=-1, type=int)
+parser.add_argument('--pretrain_epoch', default=-1, type=int)
+parser.add_argument('--pretrain_lr', default=-1, type=float)
+parser.add_argument('--pretrain_optim', default='None', type=str)
+parser.add_argument('--noise', default=-1, type=float)
+parser.add_argument('--trans', action='store_true', help='Run or not')
+parser.add_argument('--num_workers', default=-1, type=int)
+parser.add_argument('--net', default='None', type=str)
+parser.add_argument('--channel', default=-1, type=int)
+parser.add_argument('--wide', default=-1, type=int)
+parser.add_argument('--Acc', default=-1, type=float)
+
+parser.add_argument('--cluster_batchsize', default=-1, type=int)
+parser.add_argument('--cluster_epoch', default=-1, type=int)
+parser.add_argument('--cluster_lr', default=-1, type=float)
+parser.add_argument('--change', default=-1, type=int)
+parser.add_argument('--m', default=-1, type=int)
+parser.add_argument('--divide', default=-1, type=float)
+parser.add_argument('--total', default=-1, type=int)
+parser.add_argument('--cluster_optim', default='None', type=str)
+parser.add_argument('--manifold_lr', default=-1, type=float)
+parser.add_argument('--plot', action='store_true', help='Run or not')
+args = parser.parse_args()
+
+Data = Data_style(name=args.name, input_size=args.input_size, n_cluster=args.n_cluster, hidden_dim=args.hidden_dim, shuffle=args.shuffle,
+                  pretrain=args.pretrain, pretrain_batchsize=args.pretrain_batchsize, pretrain_epoch=args.pretrain_epoch,
+                  pretrain_lr=args.pretrain_lr, pretrain_optim=args.pretrain_optim, noise=args.noise, trans=args.trans,
+                  num_workers=args.num_workers, net=args.net, channel=args.channel, wide=args.wide, manifold_lr=args.manifold_lr,
+                  cluster_batchsize=args.cluster_batchsize, cluster_epoch=args.cluster_epoch, cluster_lr=args.cluster_lr,
+                  change=args.change, m=args.m, divide=args.divide, total=args.total, cluster_optim=args.cluster_optim)
+
+Data.show_para()
+
+train_loader = find_data(Data, train_mode=True)
+val_loader   = find_data(Data, train_mode=False)
+
+lgc = LGC(hidden=Data.hidden_dim, input_size=Data.input_size).to(device)
+manifold = lgc_loss(change=Data.change,  n_cluster=Data.n_cluster, hidden_dim=Data.hidden_dim, eps=0.00001, total=Data.total).to(device)
+
+
+if Data.net == 'CNN_VAE2':
+    pretrain_dir = './pretrain_cnn_model/pre_cnn_'
+elif Data.net == 'VAE':
+    pretrain_dir = './pretrain_model/pre_vae_'
+pretrain_model = Data.name+'_Acc_'+str(round(args.Acc, 2))+'_hiddendim_'+str(Data.hidden_dim)+'_optim_'+str(Data.pretrain_optim)\
+                 +'_lr_'+str(Data.pretrain_lr)+'_num_workers_'+str(Data.num_workers)\
+                 +'_noise_'+str(Data.noise)+'_batchsize_'+str(Data.pretrain_batchsize)+'_epoch_'+str(Data.pretrain_epoch) + '.pt'
+
+path = pretrain_dir + pretrain_model
+print('\nloading pretrain weight from ', path, '\n')
+
+lgc.load_model(path)
+#lgc.Global_share_para()
+
+if Data.cluster_optim == 'SGD':
+    bias_params = filter(lambda x: ('bias' in x[0]) and (x[1].requires_grad), lgc.named_parameters())
+    bias_params = list(map(lambda x: x[1], bias_params))
+    nonbias_params = filter(lambda x: ('bias' not in x[0]) and (x[1].requires_grad), lgc.named_parameters())
+    nonbias_params = list(map(lambda x: x[1], nonbias_params))
+    optimizer = optim.SGD([{'params': bias_params, 'lr': Data.cluster_lr}, {'params': nonbias_params}],
+                          lr=Data.cluster_lr, momentum=0.9, weight_decay=0.0, nesterov=True)
+elif Data.cluster_optim == 'Adam':
+    optimizer = optim.Adam([{'params': lgc.parameters()},{'params': manifold.mu}], lr=Data.cluster_lr)
+
+#data = torch.Tensor(dataset.x).to(device)
+print('encoder1: ', lgc.encoder1, '\nmanifold: ', lgc.encoder2, '\nclustering: ', lgc.global_, '\n')
+kmeans = KMeans(Data.n_cluster, n_init=20)
+
+record = Show(pretrain=False)
+stage = 'local'
+old_mu = torch.Tensor(10, 10).cuda()
+local_end = 0
+global1_end = 0
+global2_end = 0
+small_epoch = 0
+stage_num = 0
+for epoch in range(Data.cluster_epoch):
+    total_loss = 0
+
+    small_batch = []
+    small_batch_c = []
+    Y = []
+    for batch_idx, (x, y) in enumerate(train_loader):
+        z=lgc(x, local=True)
+        z_c = manifold.softmax(lgc(x, local=False))
+        Y.append(y.data)
+        small_batch.append(z.data)
+        small_batch_c.append(z_c.data)
+    z = torch.cat(small_batch, dim=0)
+    y_c = torch.cat(small_batch_c, dim=0)
+    Y = torch.cat(Y, dim=0)
+
+    if stage == 'local' and small_epoch % 5 == 0:
+        y_pred = kmeans.fit_predict(z.data.cpu().numpy())
+    if epoch == 0:
+        manifold.mu.data.copy_(torch.Tensor(kmeans.cluster_centers_))
+    Z = z
+
+    old_mu.data.copy_(manifold.mu.data)
+    #print(manifold.mu)
+    #if stage == 'local' and small_epoch == 0:
+    #    Z = z
+
+    _, _, _, D = manifold.compute_S_(z, epoch)
+
+    if Y is not None:
+        # y_pred = torch.argmax(D3, dim=1).data.cpu().numpy()
+        # y_pred = kmeans.fit_predict(z.data.cpu().numpy())
+        _, AK = acc(Y.cpu().numpy(), y_pred)
+        y_pred1 = torch.argmax(D, dim=1).data.cpu().numpy()
+        _, AD = acc(Y.cpu().numpy(), y_pred1)
+        _, AC = acc(Y.cpu().numpy(), torch.argmax(y_c, dim=1).data.cpu().numpy())
+        AK *= 100
+        AD *= 100
+        AC *= 100
+        Nmi = nmi(Y.cpu().numpy(), y_pred1) * 100
+        Ari = ari(Y.cpu().numpy(), y_pred1) * 100
+
+    for batch_idx, (x, y) in enumerate(train_loader):
+        zbatch = Z[batch_idx * Data.cluster_batchsize: min((batch_idx + 1) * Data.cluster_batchsize, Data.total)]
+        Dbatch = D[batch_idx * Data.cluster_batchsize: min((batch_idx + 1) * Data.cluster_batchsize, Data.total)]
+
+        if stage == 'local':
+            optimizer = optim.Adam([{'params': lgc.Local.parameters()}], lr=Data.cluster_lr)
+            z = lgc(x, local=True)
+            zbatch = Variable(zbatch)
+            keep_relation = manifold.Similarity_Mantain_Norm(zbatch, z, batch_idx, Data.cluster_batchsize, Data.total, small_epoch, Data.m, Data.divide)
+            loss = (1 - (epoch / Data.cluster_epoch) ** 1) * keep_relation
+        elif stage == 'global1':
+            optimizer = optim.Adam([{'params': manifold.mu}], lr=Data.cluster_lr)
+            z = lgc(x, local=True)
+            Dbatch = Variable(Dbatch)
+            Sbatch = manifold.compute_batch(z, batch_idx, Data.cluster_batchsize, Data.total, small_epoch)
+            loss = manifold.loss(Sbatch, Sbatch, Dbatch, Dbatch, one=False, pur=False)
+        elif stage == 'global2':
+            optimizer = optim.Adam([{'params': lgc.global_.parameters()}], lr=Data.cluster_lr)
+            z = lgc(x, local=False)
+            Dbatch = Variable(Dbatch)
+            loss = manifold.CrossEntropyLoss(z, torch.argmax(Dbatch, dim=1))
+
+        total_loss += loss.data
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+    if stage == 'local':
+        print('\033[0;30;46mEpoch: [{}\{}\{}], Manifold_loss: {:.8f}\033[0m'.format(Data.cluster_epoch, stage_num, epoch - global2_end,
+                                                                        total_loss / (batch_idx + 1)))
+        record.append(total_loss, AK, AD, Nmi, Ari, 'manifold')
+        local_end = epoch
+        small_epoch = epoch - global2_end
+        if small_epoch >= 30:
+            stage = 'global1'
+            stage_num += 1
+            small_epoch = 0
+    elif stage == 'global1':
+        print('\033[0;30;46mEpoch: [{}\{}\{}], Cluster_loss1: {:.8f}\033[0m'.format(Data.cluster_epoch, stage_num, epoch - local_end,
+                                                                               total_loss / (batch_idx + 1)))
+        print(manifold.mu.grad.sum(), torch.sum(old_mu - manifold.mu))
+        record.append(total_loss, AK, AD, Nmi, Ari, 'cluster')
+        global1_end = epoch
+        small_epoch = epoch - local_end
+        if small_epoch >= 70:
+            stage = 'global2'
+            stage_num += 1
+            small_epoch = 0
+    elif stage == 'global2':
+        print('\033[0;30;46mEpoch: [{}\{}\{}], Cluster_loss2: {:.8f}\033[0m'.format(Data.cluster_epoch, stage_num, epoch - global1_end,
+                                                                                total_loss / (batch_idx + 1)))
+        print(manifold.mu.grad.sum(), torch.sum(old_mu - manifold.mu))
+        record.append(total_loss, AK, AD, Nmi, Ari, 'cluster')
+        global2_end = epoch
+        small_epoch = epoch - global1_end
+        if small_epoch >= 30:
+            stage = 'local'
+            stage_num += 1
+            small_epoch = 0
+
+    print('AK = %.4f\tAD = %.4f\tAC = %.4f\tNmi = %.4f\tAri = %.4f\t\n' % (AK, AD, AC, Nmi, Ari))
+
+final_dir = './final_model/Fin_'
+final_model = Data.name+'_Ac_'+str(round(A2,2))+'_Nm_'+str(round(Nmi,2))+'_Ar_'+str(round(Ari,2))+'_m_'\
+              +str(Data.m)+'_divid_'+str(Data.divide)+'_chang_'+str(Data.change) + '_clr_'+str(Data.cluster_lr)\
+              +'_mlr_' + str(Data.manifold_lr) +'_btsize_'+str(Data.cluster_batchsize)+'_epoh_'+str(Data.cluster_epoch) \
+              +'_Fr_' + pretrain_model
+path = final_dir + final_model
+print('\nsaving model to... ', path)
+torch.save(lgc.state_dict(), path)
+record.plot(path, args.plot)
+print('\nOver!')
